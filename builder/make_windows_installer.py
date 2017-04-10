@@ -20,14 +20,11 @@ import os
 import shutil
 import sys
 import filecmp
+import pkginfo
 from filecmp import dircmp
 
-# Parse arguments
-if len(sys.argv) < 2:
-    print 'Supply releasename!'
-    sys.exit(1)
-
-release = sys.argv[1]
+# Extract version info
+release = pkginfo.Develop('./src/').version
 prod = 'SABnzbd-' + release
 fileIns = prod + '-win-setup.exe'
 

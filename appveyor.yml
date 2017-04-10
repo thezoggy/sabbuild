@@ -9,9 +9,6 @@ install:
   - appveyor DownloadFile "https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/unsis/nsis-2.46.5-Unicode-setup.exe" -FileName nsis.exe
   - nsis.exe /S
 
-  # Set the path to include NSIS and 7zip
-  - set PATH="C:\projects\sabbuild\builder\src\win\7zip";"C:\Program Files (x86)\NSIS\Unicode";%PATH%
-
   # Update pip and get virtualenv
   - pip install virtualenv --upgrade
 
@@ -19,16 +16,41 @@ install:
   # > Win32
   - virtualenv -p C:\\Python27\python.exe win32
   - win32\Scripts\activate.bat
-  - python --version
+  - python -c "import sys; print(sys.version)"
   - pip install --upgrade -r requirements.txt
   - pip install --upgrade -r appveyor/requirements_win.txt
   - deactivate
   # > Win64
   - virtualenv -p C:\\Python27-x64\python.exe win64
   - win64\Scripts\activate.bat
-  - python --version
+  - python -c "import sys; print(sys.version)"
   - pip install --upgrade -r requirements.txt
   - pip install --upgrade -r appveyor/requirements_win.txt
   - deactivate
 
 build_script:
+  # Move to right directory
+  - cd builder
+
+  # We need to set the PATH for every virtualenv
+  # > Win64
+  - ..\win64\Scripts\activate.bat
+  - set PATH=C:\projects\sabbuild\builder\src\win\7zip;C:\Program Files (x86)\NSIS\Unicode;%PATH%
+  - python package.py installer
+  - deactivate
+  # > Win32
+  - ..\win32\Scripts\activate.bat
+  - set PATH=C:\projects\sabbuild\builder\src\win\7zip;C:\Program Files (x86)\NSIS\Unicode;%PATH%
+  - python package.py installer
+
+  # Make the installer (from 32bit, to be sure)
+  - python make_windows_installer.py
+
+  # Make the source package and stop
+  - python package.py source
+  - deactivate
+
+artifacts:
+  - path: builder\src\*.exe
+  - path: builder\src\*.zip
+  - path: builder\src\*.tar.gz

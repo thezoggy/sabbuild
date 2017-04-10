@@ -289,7 +289,7 @@ release = pkginfo.Develop('.').version
 
 # Check paths
 Git = CheckPath('git')
-ZipCmd = CheckPath('zip')
+ZipCmd = CheckPath('7za')
 
 if os.name != 'nt':
     PanDoc = CheckPath('pandoc')
@@ -640,14 +640,6 @@ elif target in ('binary', 'installer'):
     ############################
     # We move the files to later create the installer
     if target == 'installer':
-        # delete_files(fileIns)
-        # os.system('makensis.exe /v3 /DSAB_PRODUCT=%s /DSAB_VERSION=%s /DSAB_FILE=%s NSIS_Installer.nsi.tmp' % \
-        #           (prod, release, fileIns))
-        # delete_files('NSIS_Installer.*')
-        # if not os.path.exists(fileIns):
-        #     print 'Fatal error creating %s' % fileIns
-        #     exit(1)
-
         # Save to seperate folder based on 32/64
         if Win32_Is64:
             os.system('mkdir ..\\installer_output\\x64')
@@ -659,7 +651,7 @@ elif target in ('binary', 'installer'):
     # Generate the
     delete_files(fileBin)
     os.rename('dist', prod)
-    os.system('zip -9 -r -X %s %s' % (fileBin, prod))
+    os.system('7za a %s %s' % (fileBin, prod))
 
     # Time-out is required, otherwise permission denied!
     time.sleep(1.0)
