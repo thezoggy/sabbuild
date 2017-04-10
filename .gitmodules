@@ -1,0 +1,3 @@
+[submodule "builder/src"]
+    path = builder/src
+    url = git://github.com/sabnzbd/sabnzbd.git

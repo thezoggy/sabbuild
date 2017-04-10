@@ -1,0 +1,5 @@
+# For the OSX build specific
+pyobjc==3.2.1
+py2app==0.12
+dmgbuild==1.2.1
+biplist

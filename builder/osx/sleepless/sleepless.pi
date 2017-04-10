@@ -1,0 +1,23 @@
+# WingIDE compatible PI file to describe module 'sleepless'
+
+
+__package__ = sleepless
+
+def allow_sleep(message):
+    """ Allow OS to go to sleep.
+        Stays in effect until next 'keep_awake' call.
+        Multiple calls allowed.
+        Returns 0
+    """
+    pass
+
+
+def keep_awake():
+    """ Tell OS to stay awake.
+        'message' : text to send to OS (plain ASCII or Unicode).
+        Stays in effect until next 'allow_sleep' call.
+        Multiple calls allowed.
+        Returns 0
+    """
+    pass
+

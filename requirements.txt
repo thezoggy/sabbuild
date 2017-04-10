@@ -1,0 +1,10 @@
+# SAB-Specific
+git+https://github.com/cheetahtemplate/cheetah.git
+cryptography==1.8.1
+sabyenc==3.0.2
+
+# Basic build requirements
+setuptools
+appdirs
+packaging
+pkginfo
