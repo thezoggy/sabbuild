@@ -12,17 +12,14 @@ script:
 - travis/build.sh
 deploy:
   provider: releases
-  release: $(TRAVIS_TAG)
   api_key:
     secure: XOiD22Q6dvngimq2Oh+ySVW0/vxrCsLfvDjomVlBLa69RYErFLqbaCwkVo7w+hMynfFgrV2eAed3Gwp+LFIysWBHAed4jlr54M0PNIpqNrOERUTpPcOwffi4onEp7GtBXgcEa3eNioFRCRon0RhWIWgzYcW2N8MQ3Btycq6x7A94Gck0vsmHsu34mQktzPXrHik/4oiXw2ukCzm13sOH21uOpeXP0oY/0qcIMXtDtE3vms3+RGeO5KF21vrZG2ffHBDokwNJHg8O5TORr9MS8lX4w7huvDa50EKWYk0Yw2w7Ko+aeOFhd85FVAs47KKhF3kLn0K7fuX1kC73Jo6+7TErpzi4LcAV5cU6ZMKLKeHLk18P1eDvhTG81KQP4DL9vNS0U0EkeUujlDWwC2atjf481jDzNhlgD9zzLuxMd8tenaKmiku9LSZMrlx3Yo9Tw9jB64MWDpravbgQOFhL3f8eLXkLPJbSu2to5HFNJVxerI18xM/PWCNGm4Xq6PEP5HY+0Ao8giNNsVzV0H5CiHFIfb2yUNNq+LPtrM8JjxuQYnbgsHhpJb82HIHPmoJ3KA3YrzDAwFZ29EcDOwlqHJZOrSlAEPLwmdn6s7oKvO22fsvAXXPO1L4oDS0AQcqyey6+2DjxoKMAmaOn4n7YaxHQaN6JmsaBoCKnG981WMo=
   file_glob: true
   file: builder/dmg/*.dmg
   skip_cleanup: true
   overwrite: true
-  draft: true
   on:
     tags: true
 before_install:
 - openssl aes-256-cbc -K $encrypted_90b7c842d9ac_key -iv $encrypted_90b7c842d9ac_iv
   -in travis/codesign/PrivKey.p12.enc -out travis/codesign/PrivKey.p12 -d
-cache: pip
