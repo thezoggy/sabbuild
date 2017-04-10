@@ -1,3 +1,5 @@
+skip_non_tags: true
+
 notifications:
   email: false
 
@@ -60,13 +62,15 @@ artifacts:
     name: BinaryWin64
   - path: builder\src\*-src.tar.gz
     name: Source
+  - path: builder\src\README.mkd
+    name: README
 
 deploy:
   description: '$(APPVEYOR_REPO_TAG_NAME)'
   provider: GitHub
   auth_token:
     secure: ogVX+nbG6hCMHgHBul09PAMZ0I9979OoeRGmeHLxojXkZnAPLv+dfOI38emFr5dw
-  artifact: Installer, BinaryWin32, BinaryWin64, Source
+  artifact: Installer, BinaryWin32, BinaryWin64, Source, README
   draft: false
   prerelease: true
   on:
