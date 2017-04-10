@@ -1,0 +1,14 @@
+notifications:
+  email: false
+
+install:
+  # Install NSIS
+  - appveyor DownloadFile "https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/unsis/nsis-2.46.5-Unicode-setup.exe" -FileName nsis.exe
+  - nsis.exe /S
+
+  # Update pip and get virtualenv
+  - pip install virtualenv --upgrade
+
+build_script:
+  # Update the submodule
+  - git submodule update --init
