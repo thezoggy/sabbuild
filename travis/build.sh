@@ -4,8 +4,8 @@ set -e -x
 # Get the certificate to sign the releases from secret Travis variable
 # From: https://medium.com/juan-cruz-viotti/how-to-code-sign-os-x-electron-apps-in-travis-ci-6b6a0756c04a
 # But modified to actually work!
-export KEYCHAIN = build.keychain;
-export KEYCHAIN_PASS = travisci;
+export KEYCHAIN=build.keychain;
+export KEYCHAIN_PASS=travisci;
 
 security create-keychain -p $KEYCHAIN_PASS $KEYCHAIN;
 security default-keychain -s $KEYCHAIN;
