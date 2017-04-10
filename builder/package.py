@@ -289,7 +289,6 @@ release = pkginfo.Develop('.').version
 
 # Check paths
 Git = CheckPath('git')
-ZipCmd = CheckPath('7za')
 
 if os.name != 'nt':
     PanDoc = CheckPath('pandoc')
@@ -308,6 +307,11 @@ if os.name == 'nt':
     if msg:
         print msg
         exit(1)
+    ZipCmd = CheckPath('7za')
+    if not ZipCmd:
+        print 'Stopping. Missing "7za"!'
+        exit(1)
+
 else:
     NSIS = '-'
 
@@ -316,8 +320,8 @@ GitRevertVersion =  GitRevertApp + ' ' + VERSION_FILE
 GitVersion = Git + ' log -1'
 GitStatus = Git + ' status'
 
-if not (Git and ZipCmd):
-    print 'Missing programs. Need "git" and "zip"'
+if not Git:
+    print 'Stopping. Missing "git"!'
     exit(1)
 
 if target not in ('source', 'binary', 'installer', 'app') or not release:

@@ -1,10 +1,6 @@
 notifications:
   email: false
 
-environment:
-  gh_token:
-    secure: fYF+6TvQdqbg7u+c+NraAg==
-
 install:
   # Update the submodule
   - git submodule update --init
@@ -56,16 +52,21 @@ build_script:
   - deactivate
 
 artifacts:
-  - path: builder\src\*.exe
-  - path: builder\src\*.zip
-  - path: builder\src\*.tar.gz
+  - path: builder\src\*-win-setup.exe
+    name: Installer
+  - path: builder\src\*-win32-bin.zip
+    name: BinaryWin32
+  - path: builder\src\*-win64-bin.zip
+    name: BinaryWin64
+  - path: builder\src\*-src.tar.gz
+    name: Source
 
 deploy:
-  description: '$(appveyor_build_version)'
+  description: '$(APPVEYOR_REPO_TAG_NAME)'
   provider: GitHub
   auth_token:
-    secure: $(gh_token)
-  artifact: builder\src\*.exe, builder\src\*.zip, builder\src\*.tar.gz
+    secure: ogVX+nbG6hCMHgHBul09PAMZ0I9979OoeRGmeHLxojXkZnAPLv+dfOI38emFr5dw
+  artifact: Installer, BinaryWin32, BinaryWin64, Source
   draft: false
   prerelease: true
   on:
