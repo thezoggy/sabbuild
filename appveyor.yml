@@ -11,30 +11,6 @@ install:
   - appveyor DownloadFile "https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/unsis/nsis-2.46.5-Unicode-setup.exe" -FileName nsis.exe
   - nsis.exe /S
 
-  # Get bazaar and clone the translations repo
-  - choco install bzr
-  - set PATH=C:\Program Files (x86)\Bazaar;%PATH%
-  - bzr branch lp:~sabnzbd/sabnzbd/0.8.x.tr
-
-  # Remove unwanted translations
-  - cd 0.8.x.tr
-  - del /S en*.po
-  - del /S pt.po
-  - del /S ar.po
-  - del /S ja.po
-  - del /S th.po
-  - del /S lo.po
-  - del /S hy.po
-  - del /S hu.po
-  - del /S hr.po
-  - del /S cy.po
-  - del /S cs.po
-  - del /S *.pot
-  - cd ..
-
-  # Copy the translations
-  - xcopy 0.8.x.tr\po builder\src\po /e /y
-
   # Update pip and get virtualenv
   - pip install virtualenv --upgrade
 
@@ -53,6 +29,7 @@ install:
   - pip install --upgrade -r requirements.txt
   - pip install --upgrade -r appveyor/requirements_win.txt
   - deactivate
+
 
 build_script:
   # Move to right directory
