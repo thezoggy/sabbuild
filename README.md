@@ -1,12 +1,13 @@
 SABBuilder
 ==========
-
+# :warning: NOT INTENDED FOR END-USERS :warning:
 This repository is used to build and package releases of SABnzbd using TravisCI (macOS) and AppVeyor (Windows). Releases will be pushed as drafts to this repository, after which they can be moved to the main `sabnzbd` repo.
-
-# DO NOT USE THIS.
 
 
 # For future reference:
+
+- Investigate which files should or shouldn't be included in the repo, such as installers etc.
+- Enable caching on the build platforms.
 
 ## macOS build (Travis)
 
@@ -17,4 +18,4 @@ WARNING: encrypted files generated with `travis encrypt-file` on Windows do not 
 
 ## Windows build
 
-- WIP
+- Changes to `PATH` don't transfer correctly to the virtualenv's so have to be set after starting them, this could be improved.
