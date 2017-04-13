@@ -28,7 +28,6 @@
 !include "nsProcess.nsh"
 !include "x64.nsh"
 !include "servicelib.nsh"
-!include "UAC.nsh"
 
 ;------------------------------------------------------------------
 ;
@@ -222,7 +221,7 @@
 ;------------------------------------------------------------------
 ; Run as user-level at end of install
 Function PageFinishRun
-  !insertmacro UAC_AsUser_ExecShell "" "$INSTDIR\SABnzbd.exe" "" "" ""
+  ShellExecAsUser::ShellExecAsUser "open" "$INSTDIR\SABnzbd.exe" "" "" ""
 FunctionEnd
 
 
