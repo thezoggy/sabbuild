@@ -36,6 +36,9 @@
 ; It shared by the installer and the uninstaller.
 ; Make sure it covers 0.5.x, 0.6.x, 0.7.x and 0.8.x in one go.
 ;
+; DON'T DELETE THE WHOLE FOLDER! Some users store the sabnzbd.ini
+; and scripts in the install directory... Oops!
+;
 !define RemovePrev "!insertmacro RemovePrev"
 !macro RemovePrev idir
   Delete   "${idir}\email\email-de.tmpl"
@@ -87,6 +90,9 @@
   Delete   "${idir}\email\badfetch-ru.tmpl"
   Delete   "${idir}\email\badfetch-zh_CN.tmpl"
   RMDir    "${idir}\email"
+  Delete   "${idir}\scripts\Sample-PostProc.cmd"
+  Delete   "${idir}\scripts\Sample-PostProc.sh"
+  RMDir    "${idir}\scripts" ; Only remove if empty!
   RMDir /r "${idir}\locale"
   RMDir /r "${idir}\interfaces\Classic"
   RMDir /r "${idir}\interfaces\Plush"
@@ -137,6 +143,8 @@
   Delete   "${idir}\Sample-PostProc.cmd"
   Delete   "${idir}\Uninstall.exe"
   Delete   "${idir}\w9xpopen.exe"
+  ; Only remove if nothing left in the folder
+  RMDir    "${idir}"
 !macroend
 
 ;------------------------------------------------------------------
