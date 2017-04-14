@@ -137,7 +137,6 @@
   Delete   "${idir}\Sample-PostProc.cmd"
   Delete   "${idir}\Uninstall.exe"
   Delete   "${idir}\w9xpopen.exe"
-  RMDir /r "${idir}"
 !macroend
 
 ;------------------------------------------------------------------
@@ -204,9 +203,9 @@
   !insertmacro MUI_PAGE_STARTMENU Application $STARTMENU_FOLDER
 
   !insertmacro MUI_PAGE_INSTFILES
-  !define MUI_FINISHPAGE_RUN
-  !define MUI_FINISHPAGE_RUN_FUNCTION PageFinishRun
-  !define MUI_FINISHPAGE_RUN_TEXT $(MsgRunSAB)
+  ; !define MUI_FINISHPAGE_RUN
+  ; !define MUI_FINISHPAGE_RUN_FUNCTION PageFinishRun
+  ; !define MUI_FINISHPAGE_RUN_TEXT $(MsgRunSAB)
   !define MUI_FINISHPAGE_SHOWREADME "$INSTDIR\README.txt"
   !define MUI_FINISHPAGE_SHOWREADME_TEXT $(MsgShowRelNote)
   !define MUI_FINISHPAGE_LINK $(MsgSupportUs)
@@ -221,9 +220,10 @@
 
 ;------------------------------------------------------------------
 ; Run as user-level at end of install
-Function PageFinishRun
-  !insertmacro UAC_AsUser_ExecShell "" "$INSTDIR\SABnzbd.exe" "" "" ""
-FunctionEnd
+; DOES NOT WORK
+; Function PageFinishRun
+;   !insertmacro UAC_AsUser_ExecShell "" "$INSTDIR\SABnzbd.exe" "" "" ""
+; FunctionEnd
 
 
 ;------------------------------------------------------------------
@@ -483,7 +483,7 @@ SectionEnd
 ;Language strings
   LangString MsgShowRelNote ${LANG_ENGLISH} "Show Release Notes"
 
-  LangString MsgRunSAB      ${LANG_ENGLISH} "Start SABnzbd"
+  ; LangString MsgRunSAB      ${LANG_ENGLISH} "Start SABnzbd"
 
   LangString MsgSupportUs   ${LANG_ENGLISH} "Support the project, Donate!"
 
