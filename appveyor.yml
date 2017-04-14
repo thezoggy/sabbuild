@@ -5,7 +5,7 @@ notifications:
 
 # Cache PIP-downloads
 cache:
-  - '%LOCALAPPDATA%\pip\Cache' -> appveyor.yml
+  - '%LOCALAPPDATA%\pip\Cache'
 
 install:
   # Update the submodule
