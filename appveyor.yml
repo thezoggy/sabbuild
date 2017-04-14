@@ -3,6 +3,10 @@ skip_non_tags: true
 notifications:
   email: false
 
+# Cache PIP-downloads
+cache:
+  - '%LOCALAPPDATA%\pip\Cache' -> appveyor.yml
+
 install:
   # Update the submodule
   - git submodule update --init

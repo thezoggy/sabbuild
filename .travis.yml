@@ -2,6 +2,9 @@ notifications:
   email: false
 git:
   depth: 1
+cache:
+  directories:
+    - $HOME/Library/Caches/pip
 matrix:
   include:
   - os: osx
