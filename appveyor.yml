@@ -12,9 +12,8 @@ install:
   - nsis.exe /S
 
   # Get bazaar and clone the translations repo
-  - choco install bzr
-  - set PATH=C:\Program Files (x86)\Bazaar;%PATH%
-  - bzr branch lp:~sabnzbd/sabnzbd/0.8.x.tr
+  - pip install bzr
+  - bzr checkout --lightweight lp:~sabnzbd/sabnzbd/0.8.x.tr
 
   # Remove unwanted translations
   - cd 0.8.x.tr
@@ -35,7 +34,7 @@ install:
   # Copy the translations
   - xcopy 0.8.x.tr\po builder\src\po /e /y
 
-  # Update pip and get virtualenv
+  # Get virtualenv
   - pip install virtualenv --upgrade
 
   # Create 2 virtual envs and install requirements
