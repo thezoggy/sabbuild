@@ -416,7 +416,7 @@ Function .onInit
 
 
   ;------------------------------------------------------------------
-  ;make sure user terminates sabnzbd.exe or else abort
+  ; make sure user terminates sabnzbd.exe or else abort
   ;
   loop:
     ${nsProcess::FindProcess} "SABnzbd.exe" $R0
@@ -428,7 +428,7 @@ Function .onInit
   endcheck:
 
   ;------------------------------------------------------------------
-  ;make sure both services aren't running
+  ; make sure both services aren't running
   ;
   !insertmacro SERVICE "running" "SABnzbd" ""
   Pop $0 ;response
@@ -440,6 +440,14 @@ Function .onInit
     ; exitinstall already defined above
   ${EndIf}
 
+FunctionEnd
+
+;------------------------------------------------------------------
+; Show the shortcuts at end of install so user can start SABnzbd
+; This is instead of us trying to run SAB from the installer
+;
+Function .onInstSuccess
+  ExecShell "open" "$SMPROGRAMS\$STARTMENU_FOLDER"
 FunctionEnd
 
 ;--------------------------------
