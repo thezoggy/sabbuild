@@ -1,11 +1,11 @@
 #!/bin/bash
 set -e -x
 
-# No need for brew update
-export HOMEBREW_NO_AUTO_UPDATE=1
+# First remove to have clean installs
+brew reinstall openssl python
 
 # Pandoc to create the readme and bazaar for the translation files
-brew install pandoc bazaar python
+brew install pandoc bazaar
 
 # Display Python version
 python --version
