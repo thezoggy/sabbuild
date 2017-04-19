@@ -509,9 +509,19 @@ if target == 'app':
     os.system("find dist/SABnzbd.app/Contents/Resources/lib/python%s/xml -name '*.py' | xargs rm" % py_ver)
     os.system('rm dist/SABnzbd.app/Contents/Resources/site.py 2>/dev/null')
 
-    # Add the SabNotifier app
+    # Who will sign this?
+    authority = os.environ.get('SIGNING_AUTH')
+
+    # Notification support
     notifier = '../osx/sabnotifier/SABnzbd.app'
     if os.path.exists(notifier):
+        # Sign the SABNotifier app
+        if authority:
+            print 'Signing SABNotifier'
+            os.system('codesign --deep --force -i "org.sabnzbd.SABnzbd" -s "%s" "%s"' % (authority, notifier))
+            print 'Signed!'
+
+        # Add the SABNottifier app to the main app
         os.system('cp -pR "%s" dist/SABnzbd.app/Contents/Resources/' % notifier)
     else:
         print 'WARNING: sabnotifier app not found!'
@@ -520,11 +530,9 @@ if target == 'app':
     os.mkdir("dist/SABnzbd.app/Contents/Resources/licenses/")
     os.system("cp -p licenses/*.txt dist/SABnzbd.app/Contents/Resources/licenses/")
     os.system("cp -p *.txt dist/SABnzbd.app/Contents/Resources/licenses/")
-
     os.system("sleep 5")
 
-    # Sign if possible
-    authority = os.environ.get('SIGNING_AUTH')
+    # Sign main App
     if authority:
         print 'Signing the app'
         os.system('codesign --deep --force -i "org.sabnzbd.SABnzbd" -s "%s" "dist/SABnzbd.app"' % authority)
