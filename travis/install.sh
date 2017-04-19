@@ -5,7 +5,7 @@ set -e -x
 export HOMEBREW_NO_AUTO_UPDATE=1
 
 # Pandoc to create the readme and bazaar for the translation files
-brew install pandoc bazaar
+brew install pandoc bazaar python
 
 # Display Python version
 python --version

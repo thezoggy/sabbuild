@@ -92,7 +92,7 @@ artifacts:
     name: README
 
 deploy:
-  description: '$(APPVEYOR_REPO_TAG_NAME)'
+  description: DO NOT USE THESE FILES UNLESS INSTRUCTED TO DO SO!
   provider: GitHub
   auth_token:
     secure: ogVX+nbG6hCMHgHBul09PAMZ0I9979OoeRGmeHLxojXkZnAPLv+dfOI38emFr5dw
