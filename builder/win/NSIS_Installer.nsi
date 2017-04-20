@@ -217,7 +217,7 @@
   !define MUI_FINISHPAGE_SHOWREADME "$INSTDIR\README.txt"
   !define MUI_FINISHPAGE_SHOWREADME_TEXT $(MsgShowRelNote)
   !define MUI_FINISHPAGE_LINK $(MsgSupportUs)
-  !define MUI_FINISHPAGE_LINK_LOCATION "https://sabnzbd.org/"
+  !define MUI_FINISHPAGE_LINK_LOCATION "https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=670741"
 
   !insertmacro MUI_PAGE_FINISH
 
