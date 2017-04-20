@@ -14,17 +14,16 @@ brew uninstall --ignore-dependencies python
 curl https://www.python.org/ftp/python/2.7.13/python-2.7.13-macosx10.6.pkg -o "python.pkg"
 sudo installer -pkg python.pkg -target /
 
-
-
 # Display Python version
 python -c "import sys; print sys.version"
+python -c "import site; print site.getsitepackages()"
 
 ## Python modules
 pip install --upgrade -r requirements.txt
 pip install --upgrade -r travis/requirements_osx.txt
 
 # Required for py2app to find PyObjCTools!
-touch /usr/local/lib/python2.7/site-packages/PyObjCTools/__init__.py
+touch /Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/PyObjCTools/__init__.py
 
 # Sleepless module install
 cd builder/osx/sleepless/
