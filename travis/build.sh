@@ -18,6 +18,12 @@ security import ./travis/codesign/PrivKey.p12 -P rgi1512 -k $KEYCHAIN -A;
 # This is required to make sure the codesign doesn't hang
 security set-key-partition-list -S apple-tool:,apple: -s -k $KEYCHAIN_PASS $KEYCHAIN
 
+# Set path to python
+export PYTHON_PATH=/Library/Frameworks/Python.framework/Versions/2.7;
+
+# Required for py2app to find PyObjCTools!
+touch ${PYTHON_PATH}/lib/python2.7/site-packages/PyObjCTools/__init__.py
+
 # Run that builder
 cd builder
 python package.py 'app'

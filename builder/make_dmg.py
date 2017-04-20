@@ -48,7 +48,8 @@ if __name__ == "__main__":
 
     # Mae DMG
     print 'Building DMG'
-    os.system('python -m dmgbuild -s make_dmg.py -D app="%s" -D readme="%s" -D background="%s" "%s" "%s"' % (apppath, readmepath_new, backgroundpath, prod, fileDmg))
+    python_path = os.environ.get('PYTHON_PATH')
+    os.system('%s/bin/dmgbuild -s make_dmg.py -D app="%s" -D readme="%s" -D background="%s" "%s" "%s"' % (python_path, apppath, readmepath_new, backgroundpath, prod, fileDmg))
 
     # Resign APP
     print 'Siging DMG'
