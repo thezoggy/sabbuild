@@ -29,6 +29,7 @@ install:
   - del /S lo.po
   - del /S hy.po
   - del /S hu.po
+  - del /S he.po
   - del /S hr.po
   - del /S cy.po
   - del /S cs.po
