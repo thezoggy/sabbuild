@@ -17,16 +17,36 @@ sudo installer -pkg python.pkg -target /
 # Display Python version
 python -c "import sys; print sys.version"
 
-## Python modules
+#################################
+# Python modules
 pip install --upgrade -r requirements.txt
 pip install --upgrade -r travis/requirements_osx.txt
 
+#################################
 # Sleepless module install
 cd builder/osx/sleepless/
 python setup.py install
 cd ../../../
 
-# Get the translations
+#################################
+# Push new translations to Launchpad for translations
+bzr launchpad-login safihre
+bzr whoami "Safihre <safihre@sabnzbd.org>"
+bzr checkout --lightweight lp:~sabnzbd/sabnzbd/0.8.x
+cp -f builder/src/po/email/SABemail.pot 0.8.x/po/email/SABemail.pot
+cp -f builder/src/po/main/SABnzbd.pot 0.8.x/po/main/SABemail.pot
+cp -f builder/src/po/nsis/SABnsis.pot 0.8.x/po/nsis/SABnsis.pot
+
+cd 0.8.x
+bzr add po/email/SABemail.pot
+bzr add po/main/SABemail.pot
+bzr add po/nsis/SABnsis.pot
+bzr commit -m "Automatic POT update"
+bzr push lp:~sabnzbd/sabnzbd/0.8.x
+cd ..
+
+#################################
+# Get the translations from Launchpad
 bzr checkout --lightweight lp:~sabnzbd/sabnzbd/0.8.x.tr
 
 # Remove unwanted translations
