@@ -26,7 +26,7 @@ deploy:
 before_install:
 - openssl aes-256-cbc -K $encrypted_90b7c842d9ac_key -iv $encrypted_90b7c842d9ac_iv
   -in travis/codesign/PrivKey.p12.enc -out travis/codesign/PrivKey.p12 -d
-- echo $encrypted_bzr_key | gpg --passphrase-fd 0 travis/id_rsa.gpg
-- cp travis/id_rsa ~/.ssh/id_rsa
-- echo $encrypted_bzr_key | gpg --passphrase-fd 0 travis/id_rsa.pub.gpg
-- cp travis/id_rsa ~/.ssh/id_rsa.pub
+- openssl aes-256-cbc -K $encrypted_90b7c842d9ac_key -iv $encrypted_90b7c842d9ac_iv
+  -in travis/id_rsa.enc -out ~/.ssh/id_rsa -d
+- openssl aes-256-cbc -K $encrypted_90b7c842d9ac_key -iv $encrypted_90b7c842d9ac_iv
+  -in travis/id_rsa.pub.enc -out ~/.ssh/id_rsa.pub -d
