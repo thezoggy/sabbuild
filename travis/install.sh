@@ -32,11 +32,12 @@ cd ../../../
 # Push new translations to Launchpad for translations
 bzr launchpad-login safihre
 bzr whoami "Safihre <safihre@sabnzbd.org>"
-bzr checkout --lightweight lp:~sabnzbd/sabnzbd/0.8.x
+bzr checkout --lightweight lp:~sabnzbd/sabnzbd/0.8.x < yes
 cp -f builder/src/po/email/SABemail.pot 0.8.x/po/email/SABemail.pot
 cp -f builder/src/po/main/SABnzbd.pot 0.8.x/po/main/SABemail.pot
 cp -f builder/src/po/nsis/SABnsis.pot 0.8.x/po/nsis/SABnsis.pot
 
+# Upload it
 cd 0.8.x
 bzr add po/email/SABemail.pot
 bzr add po/main/SABemail.pot
