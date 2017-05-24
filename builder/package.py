@@ -88,18 +88,6 @@ def PatchVersion(name):
         print 'Cannot run %s' % GitVersion
         exit(1)
 
-    state = ' (not committed)'
-    try:
-        pipe = subprocess.Popen(GitStatus, shell=True, stdout=subprocess.PIPE).stdout
-        for line in pipe.read().split('\n'):
-            if 'nothing to commit' in line or 'nothing added to commit' in line:
-                state = ''
-                break
-        pipe.close()
-    except:
-        print 'Cannot run %s' % GitStatus
-        exit(1)
-
     if not commit:
         print "WARNING: Cannot run %s" % GitVersion
         commit = 'unknown'
@@ -112,7 +100,7 @@ def PatchVersion(name):
         print "WARNING: cannot patch " + VERSION_FILE
         return
 
-    my_baseline = commit + state
+    my_baseline = commit
     my_version = name
 
     text = re.sub(r'__baseline__\s*=\s*"[^"]*"', '__baseline__ = "%s"' % my_baseline, text)
