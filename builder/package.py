@@ -464,20 +464,6 @@ if target == 'app':
         setup_requires=['py2app'],
     )
 
-    # Create a symlink for Mavericks compatibility
-    cdir = os.getcwd()
-    os.chdir('dist/SABnzbd.app/Contents/Frameworks/Python.framework/Versions')
-    if os.path.exists('2.7') and not os.path.exists('Current'):
-        os.system('ln -s 2.7 Current')
-    os.chdir(cdir)
-
-    # Remove dead symlink for El Capitan compatibility
-    try:
-        os.remove('dist/SABnzbd.app/Contents/Resources/lib/python2.7/site.py')
-    except OSError:
-        # Not all OSX releases have this file, so that's OK
-        pass
-
     # copy unrar, 7zip & par2 binary
     os.system("mkdir dist/SABnzbd.app/Contents/Resources/osx>/dev/null")
     os.system("mkdir dist/SABnzbd.app/Contents/Resources/osx/par2>/dev/null")
