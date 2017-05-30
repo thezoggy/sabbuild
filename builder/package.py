@@ -449,7 +449,8 @@ if target == 'app':
                    'NSHumanReadableCopyright':'The SABnzbd-Team',
                    'CFBundleIdentifier':'org.sabnzbd.team',
                    'CFBundleDocumentTypes':[NZBFILE],
-                   },
+                   'LSMinimumSystemVersion':'10.8'
+                },
                'packages': "email,xml,Cheetah,cryptography,cffi,packaging,objc,PyObjCTools",
                'includes': "cherrypy.wsgiserver.ssl_builtin,cryptography.hazmat.backends.openssl,appdirs",
                'excludes': ["pywin", "pywin.debugger", "pywin.debugger.dbgcon", "pywin.dialogs",
