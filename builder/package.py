@@ -426,6 +426,7 @@ if target == 'app':
     os.system('ln -s ../../osx/resources/ osx/resources')
 
     # Remove previous build result
+    print 'Removing old build'
     os.system('rm -rf dist/ build/')
 
     # Create MO files
@@ -527,10 +528,19 @@ elif target in ('binary', 'installer'):
         os.system(GitRevertVersion)
         exit(1)
 
-    # Remove old build
+    print
+    print "########################################"
+    print "Starting Windows build "
+    print "########################################"
+
+    # Remove previous build result
     print 'Removing old build'
     if os.path.exists('dist'):
         shutil.rmtree('dist')
+
+    # TODO: remove build dir when building windows?
+    # if os.path.exists('build'):
+    #    shutil.rmtree('build')
 
     # Create MO files
     shutil.copy('../win/NSIS_Installer.nsi', 'NSIS_Installer.nsi')
@@ -543,7 +553,16 @@ elif target in ('binary', 'installer'):
     sys.argv[1] = 'py2exe'
     sys.argv.pop(2)
 
-    program = [ {'script': 'SABnzbd.py', 'icon_resources': [(0, "icons/sabnzbd.ico")] } ]
+    # version has to be in #.#.#.# format (semver) to be valid
+    program = [ {'script': 'SABnzbd.py',
+                 'icon_resources': [(0, "icons/sabnzbd.ico")],
+                 'version': '0.0.0.0',
+                 'company_name': 'The SABnzbd-team',
+                 'name': 'SABnzbd ' + str(my_version),
+                 'comments': 'SABnzbd ' + str(my_version),
+                 'copyright': 'Copyright (C) 2007-2017 The SABnzbd-team'
+                 }]
+
     options['options'] = {"py2exe":
                               { "bundle_files": 3,
                                 "packages": "email,xml,Cheetah,packaging,appdirs,win32file,cherrypy.wsgiserver.ssl_builtin,cryptography,cffi,cryptography.hazmat.backends.openssl",
@@ -647,6 +666,12 @@ elif target in ('binary', 'installer'):
 
     # Undo git actions
     os.system(GitRevertVersion)
+
+    print
+    print "########################################"
+    print "Finished Windows build "
+    print "########################################"
+
 
 else:
     # Prepare Source distribution package.
