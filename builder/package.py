@@ -44,6 +44,8 @@ VERSION_FILE = 'sabnzbd/version.py'
 my_version = 'unknown'
 my_baseline = 'unknown'
 
+
+# TODO: https://stackoverflow.com/questions/10840533/most-pythonic-way-to-delete-a-file-which-may-not-exist
 def delete_files(name):
     """ Delete one file or set of files from wild-card spec """
     for f in glob.glob(name):
@@ -54,6 +56,7 @@ def delete_files(name):
             print "Cannot remove file %s" % f
             exit(1)
 
+
 def CheckPath(name):
     if os.name == 'nt':
         sep = ';'
@@ -63,9 +66,9 @@ def CheckPath(name):
         ext = ''
 
     for path in os.environ['PATH'].split(sep):
-        full = os.path.join(path, name+ext)
+        full = os.path.join(path, name + ext)
         if os.path.exists(full):
-            return name+ext
+            return name + ext
     print "Sorry, cannot find %s%s in the path" % (name, ext)
     return None
 
@@ -113,6 +116,7 @@ def PatchVersion(name):
     except:
         print "WARNING: cannot patch " + VERSION_FILE
 
+
 def PairList(src):
     """ Given a list of files and dirnames,
         return a list of (destn-dir, sourcelist) tuples.
@@ -129,9 +133,9 @@ def PairList(src):
                 path = root.replace('\\', '/')
                 if path.find('.git') < 0:
                     flist = []
-                    for file in files:
-                        if not (file.endswith('.bak') or file.endswith('.pyc') or file.endswith('.pyo') or '~' in file):
-                            flist.append(os.path.join(root, file).replace('\\','/'))
+                    for f in files:
+                        if not (f.endswith('.bak') or f.endswith('.pyc') or f.endswith('.pyo') or '~' in f):
+                            flist.append(os.path.join(root, f).replace('\\', '/'))
                     if flist:
                         lst.append((path, flist))
         else:
@@ -147,18 +151,18 @@ def CreateTar(folder, fname, release):
 
     for root, dirs, files in os.walk(folder):
         for _file in files:
-            uroot = root.replace('\\','/')
+            uroot = root.replace('\\', '/')
             if (uroot.find('/win') < 0) and (uroot.find('licenses/Python') < 0) and not _file.endswith('.git'):
                 path = os.path.join(root, _file)
                 if os.name == 'nt':
-                    fpath = path.replace('srcdist\\', release+'/').replace('\\', '/')
+                    fpath = path.replace('srcdist\\', release + '/').replace('\\', '/')
                 else:
-                    fpath = path.replace('srcdist/', release+'/')
+                    fpath = path.replace('srcdist/', release + '/')
                 tarinfo = tar.gettarinfo(path, fpath)
                 tarinfo.uid = 0
                 tarinfo.gid = 0
-                if _file in ('SABnzbd.py', 'Sample-PostProc.sh', 'make_mo.py', 'msgfmt.py'): # One day add: 'setup.py'
-                    # Force Linux/OSX scripts as excutable
+                if _file in ('SABnzbd.py', 'Sample-PostProc.sh', 'make_mo.py', 'msgfmt.py'):  # One day add: 'setup.py'
+                    # Force Linux/OSX scripts as executable
                     tarinfo.mode = 0755
                 else:
                     tarinfo.mode = 0644
@@ -166,6 +170,7 @@ def CreateTar(folder, fname, release):
                 tar.addfile(tarinfo, f)
                 f.close()
     tar.close()
+
 
 def Dos2Unix(name):
     """ Read file, remove \r and write back """
@@ -227,6 +232,10 @@ def rename_file(folder, old, new):
         print "Cannot create %s" % newpath
         exit(1)
 
+
+# TODO: Python bug? looks like its been addressed in 2.6.6+: http://bugs.python.org/issue7512
+#  Issue #7512: shutil.copystat() could raise an OSError when the filesystem
+# didn't support chflags() (for example ZFS under FreeBSD).  The error is now silenced.
 
 ##########################################
 # Monkey-patch for shutil's copystat function to
@@ -303,8 +312,8 @@ if os.name == 'nt':
 else:
     NSIS = '-'
 
-GitRevertApp =  Git + ' checkout -- '
-GitRevertVersion =  GitRevertApp + ' ' + VERSION_FILE
+GitRevertApp = Git + ' checkout -- '
+GitRevertVersion = GitRevertApp + ' ' + VERSION_FILE
 GitVersion = Git + ' log -1'
 GitStatus = Git + ' status'
 
@@ -332,9 +341,9 @@ prod = 'SABnzbd-' + release
 Win32ServiceName = 'SABnzbd-service.exe'
 Win32ServiceHelpName = 'SABnzbd-helper.exe'
 Win32ConsoleName = 'SABnzbd-console.exe'
-Win32WindowName  = 'SABnzbd.exe'
-Win32HelperName  = 'SABHelper.exe'
-Win32TempName    = 'SABnzbd-windows.exe'
+Win32WindowName = 'SABnzbd.exe'
+Win32HelperName = 'SABHelper.exe'
+Win32TempName = 'SABnzbd-windows.exe'
 
 # Patch for 64bit Windows
 Win32_Is64 = platform.architecture()[0] == '64bit'
@@ -376,16 +385,16 @@ data_files = [
        ]
 
 options = dict(
-      name = 'SABnzbd',
-      version = release,
-      url = 'http://forums.sabnzbd.org',
-      author = 'The SABnzbd-Team',
-      author_email = 'team@sabnzbd.org',
-      scripts = ['SABnzbd.py', 'SABHelper.py'], # One day, add  'setup.py'
-      packages = ['sabnzbd', 'sabnzbd.utils', 'util'],
-      platforms = ['posix'],
-      license = 'GNU General Public License 2 (GPL2) or later',
-      data_files = []
+      name='SABnzbd',
+      version=release,
+      url='http://forums.sabnzbd.org',
+      author='The SABnzbd-Team',
+      author_email='team@sabnzbd.org',
+      scripts=['SABnzbd.py', 'SABHelper.py'],  # One day, add  'setup.py'
+      packages=['sabnzbd', 'sabnzbd.utils', 'util'],
+      platforms=['posix'],
+      license='GNU General Public License 2 (GPL2) or later',
+      data_files=[]
 )
 
 if target == 'app':
@@ -409,7 +418,7 @@ if target == 'app':
     # Monkey patch shutil on El Capitan
     patch_shutil()
 
-    # Check which Python flavour
+    # Check which Python flavor
     apple_py = 'ActiveState' not in sys.copyright
 
     options['description'] = 'SABnzbd ' + str(my_version)
@@ -433,29 +442,29 @@ if target == 'app':
     DATA_FILES = ['interfaces', 'locale', 'email', ('', glob.glob("osx/resources/*"))]
 
     NZBFILE = dict(
-            CFBundleTypeExtensions = [ "nzb" ],
-            CFBundleTypeIconFile = 'nzbfile.icns',
-            CFBundleTypeMIMETypes = [ "text/nzb" ],
-            CFBundleTypeName = 'NZB File',
-            CFBundleTypeRole = 'Viewer',
-            LSTypeIsPackage = 0,
-            NSPersistentStoreTypeKey = 'Binary',
+            CFBundleTypeExtensions=[ "nzb" ],
+            CFBundleTypeIconFile='nzbfile.icns',
+            CFBundleTypeMIMETypes=[ "text/nzb" ],
+            CFBundleTypeName='NZB File',
+            CFBundleTypeRole='Viewer',
+            LSTypeIsPackage=0,
+            NSPersistentStoreTypeKey='Binary',
     )
     OPTIONS = {'argv_emulation': not apple_py,
                'iconfile': 'osx/resources/sabnzbdplus.icns',
                'plist': {
-                   'NSUIElement':1,
-                   'CFBundleShortVersionString':release,
-                   'NSHumanReadableCopyright':'The SABnzbd-Team',
-                   'CFBundleIdentifier':'org.sabnzbd.team',
-                   'CFBundleDocumentTypes':[NZBFILE],
-                   'LSMinimumSystemVersion':'10.9'
-                },
+                   'NSUIElement': 1,
+                   'CFBundleShortVersionString': release,
+                   'NSHumanReadableCopyright': 'The SABnzbd-Team',
+                   'CFBundleIdentifier': 'org.sabnzbd.team',
+                   'CFBundleDocumentTypes': [NZBFILE],
+                   'LSMinimumSystemVersion': '10.9'
+                   },
                'packages': "email,xml,Cheetah,cryptography,cffi,packaging,objc,PyObjCTools",
                'includes': "cherrypy.wsgiserver.ssl_builtin,cryptography.hazmat.backends.openssl,appdirs",
                'excludes': ["pywin", "pywin.debugger", "pywin.debugger.dbgcon", "pywin.dialogs",
                             "pywin.dialogs.list", "Tkconstants", "Tkinter", "tcl"]
-              }
+               }
 
     setup(
         app=APP,
@@ -537,17 +546,16 @@ elif target in ('binary', 'installer'):
     sys.argv[1] = 'py2exe'
     sys.argv.pop(2)
 
-    program = [ {'script' : 'SABnzbd.py', 'icon_resources' : [(0, "icons/sabnzbd.ico")] } ]
+    program = [ {'script': 'SABnzbd.py', 'icon_resources': [(0, "icons/sabnzbd.ico")] } ]
     options['options'] = {"py2exe":
-                              {
-                                "bundle_files": 3,
+                              { "bundle_files": 3,
                                 "packages": "email,xml,Cheetah,packaging,appdirs,win32file,cherrypy.wsgiserver.ssl_builtin,cryptography,cffi,cryptography.hazmat.backends.openssl",
                                 "excludes": ["pywin", "pywin.debugger", "pywin.debugger.dbgcon", "pywin.dialogs",
                                              "pywin.dialogs.list", "Tkconstants", "Tkinter", "tcl"],
                                 "optimize": 2,
                                 "compressed": 0
-                              }
-                         }
+                                }
+                          }
     options['zipfile'] = 'lib/sabnzbd.zip'
 
     options['scripts'] = ['SABnzbd.py']
@@ -558,13 +566,12 @@ elif target in ('binary', 'installer'):
     setup(**options)
     rename_file('dist', Win32WindowName, Win32ConsoleName)
 
-
     # Make sure that all TXT and CMD files are DOS format
     for tup in options['data_files']:
-        for file in tup[1]:
-            name, ext = os.path.splitext(file)
+        for f in tup[1]:
+            name, ext = os.path.splitext(f)
             if ext.lower() in ('.txt', '.cmd', '.mkd'):
-                Unix2Dos("dist/%s" % file)
+                Unix2Dos("dist/%s" % f)
     delete_files('dist/Sample-PostProc.sh')
     delete_files('dist/PKG-INFO')
 
@@ -578,10 +585,9 @@ elif target in ('binary', 'installer'):
     setup(**options)
     rename_file('dist', Win32WindowName, Win32TempName)
 
-
     ############################
     # Generate the service-app
-    options['service'] = [{'modules':["SABnzbd"], 'cmdline_style':'custom'}]
+    options['service'] = [{'modules': ["SABnzbd"], 'cmdline_style': 'custom'}]
     del options['windows']
     setup(**options)
     rename_file('dist', Win32WindowName, Win32ServiceName)
@@ -589,19 +595,17 @@ elif target in ('binary', 'installer'):
     # Give the Windows app its proper name
     rename_file('dist', Win32TempName, Win32WindowName)
 
-
     ############################
     # Generate the Helper service-app
     options['scripts'] = ['SABHelper.py']
     options['zipfile'] = 'lib/sabhelper.zip'
-    options['service'] = [{'modules':["SABHelper"], 'cmdline_style':'custom'}]
+    options['service'] = [{'modules': ["SABHelper"], 'cmdline_style': 'custom'}]
     options['packages'] = ['util']
     options['data_files'] = []
     options['options']['py2exe']['packages'] = "win32file"
 
     setup(**options)
     rename_file('dist', Win32HelperName, Win32ServiceHelpName)
-
 
     ############################
     # Remove unwanted system DLL files that Py2Exe copies when running on Win7
@@ -666,37 +670,37 @@ else:
     options['data_files'].append(('tools', ['tools/make_mo.py', 'tools/msgfmt.py']))
 
     # Copy the data files
-    for set in options['data_files']:
-        dest, src = set
+    for ds in options['data_files']:
+        dest, src = ds
         ndir = root + '/' + dest
         ndir = os.path.normpath(os.path.abspath(ndir))
         if not os.path.exists(ndir):
             os.makedirs(ndir)
-        for file in src:
-            shutil.copy2(file, ndir)
-            Dos2Unix(ndir + '/' + os.path.basename(file))
+        for f in src:
+            shutil.copy2(f, ndir)
+            Dos2Unix(ndir + '/' + os.path.basename(f))
 
     # Copy the script files
     for name in options['scripts']:
-        file = os.path.normpath(os.path.abspath(name))
-        shutil.copy2(file, root)
-        base = os.path.basename(file)
+        f = os.path.normpath(os.path.abspath(name))
+        shutil.copy2(f, root)
+        base = os.path.basename(f)
         fullname = os.path.normpath(os.path.abspath(root + '/' + base))
         Dos2Unix(fullname)
 
     # Copy all content of the packages (but skip backups and pre-compiled stuff)
     for unit in options['packages']:
-        unitpath = unit.replace('.','/')
+        unitpath = unit.replace('.', '/')
         dest = os.path.normpath(os.path.abspath(root + '/' + unitpath))
         if not os.path.exists(dest):
             os.makedirs(dest)
         for name in glob.glob("%s/*.*" % unitpath):
-            file = os.path.normpath(os.path.abspath(name))
-            front, ext = os.path.splitext(file)
-            base = os.path.basename(file)
+            f = os.path.normpath(os.path.abspath(name))
+            front, ext = os.path.splitext(f)
+            base = os.path.basename(f)
             fullname = os.path.normpath(os.path.abspath(dest + '/' + base))
             if (ext.lower() not in ('.pyc', '.pyo', '.bak')) and '~' not in ext:
-                shutil.copy2(file, dest)
+                shutil.copy2(f, dest)
                 Dos2Unix(fullname)
 
     ############################
