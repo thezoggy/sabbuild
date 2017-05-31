@@ -96,9 +96,8 @@ def PatchVersion(name):
         commit = 'unknown'
 
     try:
-        ver = open(VERSION_FILE, 'rb')
-        text = ver.read()
-        ver.close()
+        with open(VERSION_FILE, 'rb') as ver:
+            text = ver.read()
     except:
         print "WARNING: cannot patch " + VERSION_FILE
         return
@@ -110,9 +109,8 @@ def PatchVersion(name):
     text = re.sub(r'__version__\s*=\s*"[^"]*"', '__version__ = "%s"' % my_version, text)
 
     try:
-        ver = open(VERSION_FILE, 'wb')
-        ver.write(text)
-        ver.close()
+        with open(VERSION_FILE, 'wb') as ver:
+            ver.write(text)
     except:
         print "WARNING: cannot patch " + VERSION_FILE
 
@@ -166,9 +164,10 @@ def CreateTar(folder, fname, release):
                     tarinfo.mode = 0755
                 else:
                     tarinfo.mode = 0644
-                f= open(path, "rb")
-                tar.addfile(tarinfo, f)
-                f.close()
+
+                with open(path, 'rb') as f:
+                    tar.addfile(tarinfo, f)
+
     tar.close()
 
 
@@ -180,17 +179,15 @@ def Dos2Unix(name):
 
     print name
     try:
-        f = open(name, 'rb')
-        data = f.read()
-        f.close()
+        with open(name, 'rb') as f:
+            data = f.read()
     except:
         print "File %s does not exist" % name
         exit(1)
     data = data.replace('\r', '')
     try:
-        f = open(name, 'wb')
-        f.write(data)
-        f.close()
+        with open(name, 'wb') as f:
+            f.write(data)
     except:
         print "Cannot write to file %s" % name
         exit(1)
@@ -203,19 +200,18 @@ def Unix2Dos(name):
         return
 
     print name
+
     try:
-        f = open(name, 'rb')
-        data = f.read()
-        f.close()
+        with open(name, 'rb') as f:
+            data = f.read()
     except:
         print "File %s does not exist" % name
         exit(1)
     data = data.replace('\r', '')
     data = data.replace('\n', '\r\n')
     try:
-        f = open(name, 'wb')
-        f.write(data)
-        f.close()
+        with open(name, 'wb') as f:
+            f.write(data)
     except:
         print "Cannot write to file %s" % name
         exit(1)
@@ -257,6 +253,7 @@ def copystat(src, dst):
         except:
             # Ignore all errors
             pass
+
 
 def patch_shutil():
     if [int(n) for n in platform.mac_ver()[0].split('.')] >= [10, 11, 2]:
