@@ -460,7 +460,7 @@ if target == 'app':
                'packages': "email,xml,Cheetah,cryptography,cffi,packaging,objc,PyObjCTools",
                'includes': "cherrypy.wsgiserver.ssl_builtin,cryptography.hazmat.backends.openssl,appdirs",
                'excludes': ["pywin", "pywin.debugger", "pywin.debugger.dbgcon", "pywin.dialogs",
-                            "pywin.dialogs.list", "Tkconstants", "Tkinter", "tcl"]
+                            "pywin.dialogs.list", "Tkconstants", "Tkinter", "tcl", "doctest", "unittest"]
                }
 
     setup(
@@ -559,14 +559,14 @@ elif target in ('binary', 'installer'):
                  'company_name': 'The SABnzbd-team',
                  'name': 'SABnzbd ' + str(my_version),
                  'comments': 'SABnzbd ' + str(my_version),
-                 'copyright': 'Copyright (C) 2007-2017 The SABnzbd-team'
+                 'copyright': 'The SABnzbd-Team'
                  }]
 
     options['options'] = {"py2exe":
                               { "bundle_files": 3,
                                 "packages": "email,xml,Cheetah,packaging,appdirs,win32file,cherrypy.wsgiserver.ssl_builtin,cryptography,cffi,cryptography.hazmat.backends.openssl",
                                 "excludes": ["pywin", "pywin.debugger", "pywin.debugger.dbgcon", "pywin.dialogs",
-                                             "pywin.dialogs.list", "Tkconstants", "Tkinter", "tcl"],
+                                             "pywin.dialogs.list", "Tkconstants", "Tkinter", "tcl", "doctest", "unittest"],
                                 "optimize": 2,
                                 "compressed": 0
                                 }
@@ -594,9 +594,9 @@ elif target in ('binary', 'installer'):
 
     ############################
     # Generate the windowed-app
-    options['windows'] = program
     del options['data_files']
     del options['console']
+    options['windows'] = program
     setup(**options)
     rename_file('dist', Win32WindowName, Win32TempName)
 
