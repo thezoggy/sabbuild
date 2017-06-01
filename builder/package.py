@@ -326,7 +326,7 @@ if not os.path.exists('SABnzbd.py') and not os.path.exists('.git'):
     exit(2)
 
 # Check for the development version of Cheetah
-# Since development has completly stopped, we can do a hard check
+# Since development has completely stopped, we can do a hard check
 import Cheetah
 if Cheetah.VersionTuple != (2, 4, 4, 'development', 1):
     print 'Requires development version of Cheetah'
@@ -459,8 +459,8 @@ if target == 'app':
                    },
                'packages': "email,xml,Cheetah,cryptography,cffi,packaging,objc,PyObjCTools",
                'includes': "cherrypy.wsgiserver.ssl_builtin,cryptography.hazmat.backends.openssl,appdirs",
-               'excludes': ["pywin", "pywin.debugger", "pywin.debugger.dbgcon", "pywin.dialogs",
-                            "pywin.dialogs.list", "Tkconstants", "Tkinter", "tcl", "doctest", "unittest"]
+               'excludes': ["pywin", "pywin.debugger", "pywin.debugger.dbgcon", "pywin.dialogs", "pywin.dialogs.list",
+                            "Tkconstants", "Tkinter", "tcl", "doctest", "unittest", "pdb", "difflib", "calendar"]
                }
 
     setup(
@@ -565,8 +565,8 @@ elif target in ('binary', 'installer'):
     options['options'] = {"py2exe":
                               { "bundle_files": 3,
                                 "packages": "email,xml,Cheetah,packaging,appdirs,win32file,cherrypy.wsgiserver.ssl_builtin,cryptography,cffi,cryptography.hazmat.backends.openssl",
-                                "excludes": ["pywin", "pywin.debugger", "pywin.debugger.dbgcon", "pywin.dialogs",
-                                             "pywin.dialogs.list", "Tkconstants", "Tkinter", "tcl", "doctest", "unittest"],
+                                "excludes": ["pywin", "pywin.debugger", "pywin.debugger.dbgcon", "pywin.dialogs", "pywin.dialogs.list",
+                                             "Tkconstants", "Tkinter", "tcl", "doctest", "unittest", "pdb", "difflib", "calendar"],
                                 "optimize": 2,
                                 "compressed": 0
                                 }
@@ -594,9 +594,9 @@ elif target in ('binary', 'installer'):
 
     ############################
     # Generate the windowed-app
+    options['windows'] = program
     del options['data_files']
     del options['console']
-    options['windows'] = program
     setup(**options)
     rename_file('dist', Win32WindowName, Win32TempName)
 
